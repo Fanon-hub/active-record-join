@@ -35,24 +35,15 @@ class ExercisesController < ApplicationController
     end
   end
 
-  def exercise4 
-    # 【要件】一番お金を使っている顧客を返すこと
-    #   * joinsを使うこと
-    #   * 取得したCustomerのインスタンスにfoods_price_sumと呼びかけると合計金額を返すこと
-    result = Customer
-               .joins(orders: :food)
-               .select('customers.id, SUM(foods.price) AS foods_price_sum')
-               .group('customers.id')
-               .order('foods_price_sum DESC')
-               .first
-
-    if result
-      @customer = Customer.find(result.id)
-      @customer.define_singleton_method(:foods_price_sum) do
-        result.read_attribute('foods_price_sum').to_i
-      end
-    else
-      @customer = nil
-    end
+  def exercise4
+  # 【要件】一番お金を使っている顧客を返すこと
+  #   * joinsを使うこと
+  #   * 取得したCustomerのインスタンスにfoods_price_sumと呼びかけると合計金額を返すこと
+  @customer = Customer
+    .joins(orders: { order_foods: :food })
+    .select('customers.*, SUM(foods.price) AS foods_price_sum')
+    .group('customers.id')
+    .order('foods_price_sum DESC')
+    .first
   end
 end
