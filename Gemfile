@@ -33,6 +33,9 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'database_cleaner'
   gem 'factory_bot_rails'
+  gem 'base64'
+  gem 'bigdecimal'
+  gem 'mutex_m'
 end
 
 group :development do
